@@ -2,9 +2,7 @@ import streamlit as st
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 import torch
 import torchaudio
-from pydub import AudioSegment
 import io
-import tempfile
 
 # Load model and processor
 @st.cache_resource
@@ -18,37 +16,24 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # App UI
-st.title("🧠 Audio Captcha Solver")
+st.title("🧠 Audio CAPTCHA Solver")
 st.write("Upload an MP3 or WAV file for transcription.")
 
 uploaded_file = st.file_uploader("Upload Audio", type=["mp3", "wav"])
 
 if uploaded_file is not None:
     try:
+        # Load audio using torchaudio directly
         file_bytes = uploaded_file.read()
+        audio_tensor, sample_rate = torchaudio.load(io.BytesIO(file_bytes))
 
-        if uploaded_file.name.endswith(".mp3"):
-            # Save the uploaded MP3 to a temp file
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp:
-                tmp.write(file_bytes)
-                tmp_path = tmp.name
+        # Resample if needed
+        if sample_rate != 16000:
+            resampler = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=16000)
+            audio_tensor = resampler(audio_tensor)
 
-            # Convert MP3 to WAV using pydub
-            audio = AudioSegment.from_file(tmp_path, format="mp3")
-            wav_io = io.BytesIO()
-            audio.export(wav_io, format="wav")
-            wav_io.seek(0)
-            waveform, sr = torchaudio.load(wav_io)
-
-        else:  # WAV file
-            waveform, sr = torchaudio.load(io.BytesIO(file_bytes))
-
-        # Resample if not 16kHz
-        if sr != 16000:
-            resampler = torchaudio.transforms.Resample(sr, 16000)
-            waveform = resampler(waveform)
-
-        input_values = processor(waveform.squeeze(), return_tensors="pt", sampling_rate=16000).input_values.to(device)
+        # Prepare for model
+        input_values = processor(audio_tensor.squeeze(), sampling_rate=16000, return_tensors="pt").input_values.to(device)
 
         with st.spinner("Transcribing..."):
             logits = model(input_values).logits
