@@ -17,7 +17,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # App UI
-st.title("🧠 Speech-to-Text with MP3/WAV")
+st.title("🧠 Audio Captcha Solver")
 st.write("Upload an MP3 or WAV file for transcription.")
 
 uploaded_file = st.file_uploader("Upload Audio", type=["mp3", "wav"])
