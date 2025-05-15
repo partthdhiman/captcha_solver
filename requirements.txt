@@ -3,3 +3,4 @@ transformers
 torchaudio
 torch
 pydub
+ffmpeg
