@@ -17,13 +17,6 @@ The solver takes an audio CAPTCHA input, processes the audio to enhance clarity,
 
 Try out the live demo of the Audio Captcha Solver at Streamlit App https://captchasolver-speechproject.streamlit.app/
 
-Features:
-
-Generates audio CAPTCHAs for testing.
-Provides image CAPTCHAs for visual challenges.
-User-friendly interface for easy interaction.
-Contributing: Feel free to fork the repository and submit pull requests for any improvements or features you would like to add.
-
 License: This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## About the Model
