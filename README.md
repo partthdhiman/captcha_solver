@@ -17,8 +17,6 @@ The solver takes an audio CAPTCHA input, processes the audio to enhance clarity,
 
 Try out the live demo of the Audio Captcha Solver at Streamlit App https://captchasolver-speechproject.streamlit.app/
 
-License: This project is licensed under the MIT License. See the LICENSE file for details.
-
 ## About the Model
 
 This project includes a custom-trained model hosted on Hugging Face: [partthdhiman/captcha-solver](https://huggingface.co/partthdhiman/captcha-solver).
