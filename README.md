@@ -32,6 +32,3 @@ from transformers import AutoProcessor, AutoModelForCTC
 
 processor = AutoProcessor.from_pretrained("partthdhiman/captcha-solver")
 model = AutoModelForCTC.from_pretrained("partthdhiman/captcha-solver")
-
-
-License: This project is licensed under the MIT License. See the LICENSE file for details.
