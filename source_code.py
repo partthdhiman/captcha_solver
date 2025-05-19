@@ -1,6 +1,3 @@
-from IPython import get_ipython
-from IPython.display import display
-# %%
 # Install dependencies
 !pip install transformers datasets torchaudio librosa jiwer noisereduce evaluate kagglehub
 !pip install fsspec==2025.3.2
